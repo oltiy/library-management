@@ -5,7 +5,9 @@
   "projects": {
     "library-management": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {  "@schematics/angular:component": {
+        "changeDetection": "OnPush"
+      }},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -27,6 +29,7 @@
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -85,6 +88,7 @@
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.css"
             ],
             "scripts": []

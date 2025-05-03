@@ -1,0 +1,6 @@
+<div class="home-container">
+  <h1>Book Library</h1>
+  <app-search (searchResults)="onSearchResults($event)" />
+
+  <app-books-list class="books-list" [books]="searchResults()" />
+</div>

@@ -1,0 +1,93 @@
+<form [formGroup]="bookForm" (ngSubmit)="onSubmit()">
+  @if (!disableEditUpdated()) {
+  <div mat-dialog-title>{{ booksUpdated() ? "Edit" : "Add New" }} Book</div>
+  }
+  <mat-dialog-content class="book-form-content">
+    <mat-form-field appearance="outline" class="title-field">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" placeholder="Book title" />
+      @if (title?.hasError('required')) {
+      <mat-error>Title is required</mat-error>
+      } @if (title?.hasError('minlength')) {
+      <mat-error>Title must be at least 3 characters</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Author</mat-label>
+      <input matInput formControlName="author" placeholder="Author name" />
+      @if (author?.hasError('required')) {
+      <mat-error>Author is required</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        placeholder="Book description"
+        rows="4"
+      ></textarea>
+      @if (description?.hasError('required')) {
+      <mat-error>Description is required</mat-error>
+      } @if (description?.hasError('minlength')) {
+      <mat-error>Description must be at least 10 characters</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Publication Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="publicationDate"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      @if (publicationDate?.hasError('required')) {
+      <mat-error>Publication date is required</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Catalog Number</mat-label>
+      <input
+        matInput
+        formControlName="catalogNumber"
+        placeholder="Catalog number"
+      />
+      @if (catalogNumber?.hasError('required')) {
+      <mat-error>Catalog number is required</mat-error>
+      } @if (catalogNumber?.hasError('uniqueCatalogNumber')) {
+      <mat-error>This catalog number is already in use</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Amount</mat-label>
+      <input
+        matInput
+        type="number"
+        min="0"
+        placeholder="0"
+        formControlName="amount"
+      />
+      @if (amount?.hasError('required')) {
+      <mat-error>Amount is required</mat-error>
+      }
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    @if (!disableEditUpdated()) {
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="bookForm.invalid"
+    >
+      {{ booksUpdated() ? "Update" : "Save" }} Book
+    </button>
+    }
+  </mat-dialog-actions>
+</form>

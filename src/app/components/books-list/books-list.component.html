@@ -1,0 +1,79 @@
+<button
+  class="add-book-button"
+  mat-raised-button
+  (click)="addBook()"
+  color="primary"
+>
+  Add book
+</button>
+<table
+  mat-table
+  [dataSource]="getBooks()!"
+  matSort
+  (matSortChange)="sortData($event)"
+  class="mat-elevation-z8 books-table"
+>
+  <ng-container matColumnDef="title">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+    <td mat-cell *matCellDef="let book">{{ book.title }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="author">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Author</th>
+    <td mat-cell *matCellDef="let book">{{ book.author }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="publicationDate">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Publication</th>
+    <td mat-cell *matCellDef="let book">
+      {{ book.publicationDate | date : "mediumDate" }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="catalogNumber">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>catalog Number</th>
+    <td mat-cell *matCellDef="let book">
+      {{ book.catalogNumber }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let book">
+      <div class="actions-cell">
+        <button
+          mat-icon-button
+          (click)="editBook(book); $event.stopPropagation()"
+        >
+          <mat-icon class="edit-icon">edit</mat-icon>
+        </button>
+
+        <button
+          mat-icon-button
+          class="delete-icon"
+          (click)="deleteBook(book.id); $event.stopPropagation()"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns"
+    (click)="openBookDetails(row)"
+  ></tr>
+</table>
+
+<mat-paginator
+  #paginator
+  (page)="handlePageEvent($event)"
+  [length]="length()"
+  [pageSize]="pageSize()"
+  [pageSizeOptions]="showPageSizeOptions ? pageSizeOptions : []"
+  [pageIndex]="pageIndex()"
+  aria-label="Select page"
+>
+</mat-paginator>
